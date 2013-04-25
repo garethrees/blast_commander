@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require 'pathname'
+bin_file = Pathname.new(__FILE__).realpath
+$:.unshift File.expand_path('../../lib', bin_file)
+require 'blast_commander'
+
+b = BlastCommander::Blast.new './query.fsa'
+b.results
