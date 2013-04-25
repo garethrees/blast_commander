@@ -3,7 +3,8 @@ PATH
   specs:
     blast_commander (0.0.1)
       entrez
-      nori (= 1.1.3)
+      nokogiri
+      nori (= 2.0.3)
 
 GEM
   remote: http://rubygems.org/
@@ -15,7 +16,8 @@ GEM
       multi_xml (>= 0.5.2)
     multi_json (1.7.2)
     multi_xml (0.5.3)
-    nori (1.1.3)
+    nokogiri (1.5.9)
+    nori (2.0.3)
 
 PLATFORMS
   ruby

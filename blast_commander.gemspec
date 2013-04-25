@@ -19,5 +19,6 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'entrez'
   gem.add_dependency 'nori', '2.0.3'
+  gem.add_dependency 'nokogiri'
 
 end
