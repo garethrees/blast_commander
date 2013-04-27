@@ -56,12 +56,20 @@ module BlastCommander
     end
 
     def hits
+      @hits ||= get_hits!
+    end
+
+    def hits!
+      @hits = get_hits!
+    end
+
+    private
+
+    def get_hits!
       CSV.parse(generate_csv, parse_options).collect do |row|
         BlastCommander::Hit.new(row.to_hash)
       end
     end
-
-    private
 
     def generate_csv
       puts "==> Running: blastn #{ generate_csv_options }"

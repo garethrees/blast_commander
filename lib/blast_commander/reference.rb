@@ -8,19 +8,19 @@ module BlastCommander
     end
 
     def description
-      ref['GBReference_title']
+      ref.fetch('GBReference_title', 'No Description')
     end
 
     def authors
-      if ref['GBReference_authors']['GBAuthor'].respond_to?(:join)
-        ref['GBReference_authors']['GBAuthor'].join(', ')
-      else
-        ref['GBReference_authors']['GBAuthor'].to_s
+      begin
+        if ref['GBReference_authors']['GBAuthor'].kind_of?(Array)
+          ref['GBReference_authors']['GBAuthor'].join(', ')
+        else
+          ref['GBReference_authors']['GBAuthor'].to_s
+        end
+      rescue
+        'Could not locate a valid reference'
       end
-    end
-
-    def to_s
-      "#{ authors }: #{ description }"
     end
 
   end

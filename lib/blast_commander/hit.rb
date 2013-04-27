@@ -3,7 +3,6 @@ module BlastCommander
 
     def initialize(attrs)
       attrs.each do |k,v|
-        puts "# ==> Setting #{ k } as #{ v }"
         instance_variable_set("@#{ k }".to_sym, v)
       end
     end
@@ -16,7 +15,7 @@ module BlastCommander
       end
     end
 
-    # TODO: Define respond_to?
+    # TODO: Define `respond_to?`
 
     def references
       ReferenceSearch.new(saccver).references
