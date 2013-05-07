@@ -11,6 +11,10 @@ module BlastCommander
       ref.fetch('GBReference_title', 'No Description')
     end
 
+    def journal
+      ref.fetch('GBReference_journal', 'Unpublished')
+    end
+
     def authors
       begin
         if ref['GBReference_authors']['GBAuthor'].kind_of?(Array)
