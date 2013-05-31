@@ -3,6 +3,8 @@ require 'csv'
 module BlastCommander
   class Blast
 
+    attr_reader :uncultured
+
     def self.default_output_format_options
       @default_output_format_options ||= {
         'qseqid' => 'Query Seq-id',
@@ -51,8 +53,9 @@ module BlastCommander
         'qcovhsp' => 'Query Coverage Per HSP' }
     end
 
-    def initialize(seq_file)
-      @file = seq_file
+    def initialize(seq_file, opts = {})
+      @file       = seq_file
+      @uncultured = opts.fetch(:uncultured, true)
     end
 
     def hits
@@ -61,6 +64,10 @@ module BlastCommander
 
     def hits!
       @hits = get_hits!
+    end
+
+    def remove_uncultured?
+      !uncultured
     end
 
     private
@@ -77,7 +84,11 @@ module BlastCommander
     end
 
     def generate_csv_options
-      "-db nt -query #{ @file } -outfmt '6 #{ self.class.default_output_format_options.keys.join(' ') }' -max_target_seqs 50 -remote"
+      "-db nt -query #{ @file } -outfmt '6 #{ self.class.default_output_format_options.keys.join(' ') }' -max_target_seqs 50 -remote #{ entrez_query if remove_uncultured? }"
+    end
+
+    def entrez_query
+      "-entrez_query 'all[filter] NOT (environmental samples[organism] OR metagenomes[orgn])'"
     end
 
     def parse_options
