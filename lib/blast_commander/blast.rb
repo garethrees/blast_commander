@@ -67,7 +67,7 @@ module BlastCommander
     end
 
     def remove_uncultured?
-      !uncultured
+      true if uncultured == false
     end
 
     private
@@ -84,6 +84,8 @@ module BlastCommander
     end
 
     def generate_csv_options
+      puts "--> Value of uncultured: #{ uncultured }"
+      puts "--> remove_uncultured?: #{ remove_uncultured? }"
       "-db nt -query #{ @file } -outfmt '6 #{ self.class.default_output_format_options.keys.join(' ') }' -max_target_seqs 50 -remote #{ entrez_query if remove_uncultured? }"
     end
 

@@ -25,7 +25,11 @@ module BlastCommander
     private
 
     def gbreference
-      paper['GBSet']['GBSeq']['GBSeq_references']['GBReference'] || {}
+      begin
+        paper['GBSet']['GBSeq']['GBSeq_references']['GBReference']
+      rescue
+        {}
+      end
     end
 
     def entrez_search_id
