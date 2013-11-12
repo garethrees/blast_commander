@@ -5,6 +5,8 @@ module BlastCommander
       attrs.each do |k,v|
         instance_variable_set("@#{ k }".to_sym, v)
       end
+      references
+      self
     end
 
     def method_missing(meth, *args, &block)
@@ -18,7 +20,15 @@ module BlastCommander
     # TODO: Define `respond_to?`
 
     def references
-      ReferenceSearch.new(saccver).references
+      @references ||= HTTParty.get(reference_url, timeout: 600 ).collect do |reference|
+        Reference.parse(reference)
+      end
+    end
+
+    private
+
+    def reference_url
+      "http://stark-plains-5163.herokuapp.com/search/#{ saccver }"
     end
 
   end

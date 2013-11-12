@@ -1,29 +1,31 @@
 module BlastCommander
   class Reference
 
-    attr_reader :ref
-
-    def initialize(reference)
-      @ref = reference
+    def self.parse(hash)
+      parsed = { description: hash.fetch('description', 'No Description'),
+                 journal: hash.fetch('journal', 'Unpublished'),
+                 authors: hash['authors'] }
+      
+      new(parsed)
     end
 
-    def description
-      ref.fetch('GBReference_title', 'No Description')
-    end
+    attr_reader :description, :journal
 
-    def journal
-      ref.fetch('GBReference_journal', 'Unpublished')
+    def initialize(hash)
+      @description = hash[:description]
+      @journal     = hash[:journal]
+      @authors     = hash[:authors]
     end
 
     def authors
       begin
-        if ref['GBReference_authors']['GBAuthor'].kind_of?(Array)
-          ref['GBReference_authors']['GBAuthor'].join(', ')
+        if @authors.kind_of?(Array)
+          @authors.join(', ')
         else
-          ref['GBReference_authors']['GBAuthor'].to_s
+          @authors.to_s
         end
       rescue
-        'Could not locate a valid reference'
+        'Could not find valid authors for this reference'
       end
     end
 
