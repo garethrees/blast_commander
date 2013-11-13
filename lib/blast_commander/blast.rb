@@ -67,7 +67,7 @@ module BlastCommander
     end
 
     def remove_uncultured?
-      true if uncultured == false
+      uncultured
     end
 
     private
